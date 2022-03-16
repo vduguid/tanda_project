@@ -1,0 +1,47 @@
+<h1>Adnat</h1>
+<h2>Sign Up</h2>
+
+<%= form_with model: @user do |form| %>
+  <div>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %><br>
+    <% @user.errors.full_messages_for(:name).each do |message| %>
+        <font color="red"> <div><%= message %></div> </font>
+        <% end %> <br>
+  </div>
+
+  <div>
+    <%= form.label :email %><br>
+    <%= form.email_field :email %><br>
+    <% @user.errors.full_messages_for(:email).each do |message| %>
+        <font color="red"> <div><%= message %></div> </font>
+        <% end %> <br>
+  </div>
+
+  <div>
+    <%= form.label "Password" %><br>
+    <i> (6 character minimum) </i> <br>
+    <%= form.password_field :pass %><br>
+    <% @user.errors.full_messages_for(:pass).each do |message| %>
+        <font color="red"> <div><%= message %></div> </font>
+        <% end %> <br>
+  </div>
+
+  <div>
+    <%= form.label "Password Confirmation" %><br>
+    <%= form.password_field :conf_pass %><br>
+    <%= @user.errors.full_messages.each do |message| %>
+        <font color="red"> <div><%= message %></div> </font>
+        <% end %> <br>
+    
+  </div>
+
+
+  <div>
+    <%= form.submit "Sign Up" %>
+  </div>
+<% end %>
+
+<p> 
+<%= link_to "Log In", root_path %> 
+</p>
