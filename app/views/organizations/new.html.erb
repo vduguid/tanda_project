@@ -1,6 +1,6 @@
 <h1>Adnat</h1>
 
-Logged in as <%= @user.name %>
+Logged in 
 
 <%= link_to "Log Out", logout_path, method: "delete" %> 
 
@@ -10,3 +10,20 @@ Join an existing one or create a new one.
 <h2>Organisations</h2>
 
 <h2>Create organisation</h2>
+
+<%= form_with scope: :post, url: home_new_organization_path do |form| %>
+    <div>
+      <%= form.label "Name:" %><br>
+      <%= form.text_field :name %><br>
+    </div>
+  
+    <div>
+      <%= form.label "Hourly Rate: $" %><br>
+      <%= form.number_field :rate, :step => "0.01" %><br>
+    </div>
+  
+  
+    <div>
+      <%= form.submit "Create and Join" %>
+    </div>
+  <% end %>

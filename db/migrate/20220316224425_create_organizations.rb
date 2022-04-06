@@ -3,7 +3,7 @@ class CreateOrganizations < ActiveRecord::Migration[7.0]
     create_table :organizations do |t|
       t.string :name
       t.float :rate
-
+      
       t.timestamps
     end
   end

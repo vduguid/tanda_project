@@ -7,9 +7,12 @@ class SessionsController < ApplicationController
         @user = User.find_by_email(params[:sessions][:email])
     
         if @user && @user.authenticate(params[:sessions][:pass])
-            p :user_id
             session[:user_id] = @user.id
-            redirect_to home_path
+            if @user.organization_id
+                redirect_to home_path
+            else
+                redirect_to '/home/new'
+            end
         else
             p "Login failed"
             redirect_to '/login'
