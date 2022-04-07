@@ -1,24 +1,36 @@
 <h1>Adnat</h1>
 
-Logged in 
+Logged in as <%= @user.name %>
 
-<%= link_to "Log Out", logout_path, method: "delete" %> 
+<%= link_to "Log Out", logout_path, method: "delete" %> <br>
 
 You aren't a member of any organisations.
-Join an existing one or create a new one.
+
+Join an existing one or create a new one. 
 
 <h2>Organisations</h2>
 
+<ul>
+  <% @organisations.each do |org| %>
+      <li>
+        <%= org.name %>
+        <%= link_to "Edit", home_edit_path(@organisation), method: "get" %> 
+        <%= link_to "Join", home_join_path(@organisation, x: org.name), method: "get" %> <br>
+      </li>
+    
+  <% end %>
+</ul>
+
 <h2>Create organisation</h2>
 
-<%= form_with scope: :post, url: home_new_organization_path do |form| %>
+<%= form_with scope: :organization, url: home_new_organization_path do |form| %>
     <div>
-      <%= form.label "Name:" %><br>
+      <%= form.label "Name: " %>
       <%= form.text_field :name %><br>
     </div>
   
     <div>
-      <%= form.label "Hourly Rate: $" %><br>
+      <%= form.label "Hourly Rate: $" %>
       <%= form.number_field :rate, :step => "0.01" %><br>
     </div>
   
