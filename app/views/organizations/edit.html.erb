@@ -1,0 +1,25 @@
+<h1>Adnat</h1>
+
+Logged in as <%= @user.name %>
+
+<%= link_to "Log Out", logout_path, method: "delete" %> <br>
+
+<h2>Edit Organisation</h2>
+
+<%= form_with scope: @organization, url: home_update_path do |form| %>
+    <div>
+      <%= form.label "Name: " %>
+      <%= form.text_field :name %><br>
+    </div>
+  
+    <div>
+      <%= form.label "Hourly Rate: $" %>
+      <%= form.number_field :rate, :step => "0.01" %><br>
+    </div>
+  
+  
+    <div>
+      <%= form.submit "Update" %>
+    </div>
+  <% end %>
+  <%= link_to "Delete", delete_path, method: "delete" %> <br>

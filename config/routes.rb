@@ -4,14 +4,22 @@ Rails.application.routes.draw do
   get '/home' => 'organizations#index'
   get '/home/new' => 'organizations#new'
   post '/home/new_organization' => 'organizations#create'
+  get 'home/join/' => 'organizations#join'
+  get 'home/leave' => 'organizations#leave'
+
+  get '/home/edit/:id' => 'organizations#edit'
+  patch '/home/update/:id' => 'organizations#update'
+
+  get '/home/delete' => 'organizations#destroy'
 
   get '/login' => 'sessions#new'
 
   post 'login' => "sessions#create"
 
-  delete '/logout' => "sessions#destroy"
+  get '/logout' => "sessions#destroy"
 
   resources :users
+  resources :organization
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
