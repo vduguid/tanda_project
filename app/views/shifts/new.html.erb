@@ -1,0 +1,44 @@
+<h1>Adnat</h1>
+
+Logged in as <%= @user.name %>
+
+<%= link_to "Log Out", logout_path, method: "delete" %> <br>
+
+<b> <h2> <%= @organization.name %> </h2> </b>
+
+<b> Shifts </b> <br> <br>
+
+<table border="1">
+<thead>
+<tr>
+<th rowspan=2> Employee name </th> <th rowspan=2> Shift date </th> <th rowspan=2> Start Time </th> 
+<th rowspan=2> End Time </th> <th rowspan=2> Break length (minutes) </th>
+<th rowspan=2> Hours worked</th> <th rowspan=2> Shift cost </th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<%= form_with model: [ @organization, @organization.shifts.build ] do |form| %>
+    <td>
+      <%= @user.name%>
+    </td>
+    <td>
+      <%= form.text_field :date %>
+    </td>
+    <td>
+      <%= form.text_field :start %>
+    </td>
+    <td>
+      <%= form.text_field :end %>
+    </td>
+    <td>
+      <%= form.number_field :break %>
+    </td>
+    <td colspan=2>
+      <%= form.submit "Create Shift", :action => "create" %>
+    </td>
+<% end %>
+</tr>
+</tbody>
+</table>

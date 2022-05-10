@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  date: MyString
+  start: MyString
+  end: MyString
+  break: 1
+  organization: one
+
+two:
+  user: two
+  date: MyString
+  start: MyString
+  end: MyString
+  break: 1
+  organization: two

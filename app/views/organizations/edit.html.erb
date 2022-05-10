@@ -6,7 +6,10 @@ Logged in as <%= @user.name %>
 
 <h2>Edit Organisation</h2>
 
-<%= form_with scope: @organization, url: home_update_path do |form| %>
+
+
+<%= form_with model: @organization do |form| %>
+
     <div>
       <%= form.label "Name: " %>
       <%= form.text_field :name %><br>
@@ -22,4 +25,6 @@ Logged in as <%= @user.name %>
       <%= form.submit "Update" %>
     </div>
   <% end %>
-  <%= link_to "Delete", delete_path, method: "delete" %> <br>
+  <%= link_to "Delete", @organization, data: {
+    turbo_method: :delete,
+  } %> <br>

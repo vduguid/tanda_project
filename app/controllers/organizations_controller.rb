@@ -20,13 +20,13 @@ class OrganizationsController < ApplicationController
 
 
     def new
-        @organisations = Organization.all
+        @organizations = Organization.all
         @user = current_user
         @organization = Organization.new
     end
 
     def create
-        
+        @user = current_user
         @organization = Organization.new(org_params)
         
         if @organization.save
@@ -43,16 +43,25 @@ class OrganizationsController < ApplicationController
     end
 
     def update
+        @user = current_user
         @organization = Organization.find_by_id(params[:id])
 
-        p params[:name]
-        p params[:rate]
 
-        if @organization.update(name: params[:name], rate: params[:rate])
-            redirect_to '/home'
+        if @organization.update(org_params)
+            if (@user.organization_id)
+                redirect_to '/home'
+            else
+                redirect_to '/home/new'
+            end
         else
             render :edit, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+        @organization = Organization.find_by_id(params[:id])
+        @organization.destroy
+        redirect_to '/home/new'
     end
 
     private

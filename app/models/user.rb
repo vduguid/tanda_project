@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_one :organization
+    has_many :shifts
 
     validates :name, presence: true
     validates :email, presence: true

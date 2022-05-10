@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/home/edit/:id' => 'organizations#edit'
   patch '/home/update/:id' => 'organizations#update'
 
-  get '/home/delete' => 'organizations#destroy'
+  get '/home/delete/:id' => 'organizations#destroy'
 
   get '/login' => 'sessions#new'
 
@@ -19,7 +19,9 @@ Rails.application.routes.draw do
   get '/logout' => "sessions#destroy"
 
   resources :users
-  resources :organization
+  resources :organizations do
+    resources :shifts
+  end
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

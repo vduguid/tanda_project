@@ -11,11 +11,11 @@ Join an existing one or create a new one.
 <h2>Organisations</h2>
 
 <ul>
-  <% @organisations.each do |org| %>
+  <% @organizations.each do |org| %>
       <li>
         <%= org.name %>
-        <%= link_to "Edit", home_edit_path(@organisation), method: "get" %> 
-        <%= link_to "Join", home_join_path(@organisation, x: org.name), method: "get" %> <br>
+        <%= link_to "Edit", edit_organization_path(@organizations, id: org.id), method: "get" %> 
+        <%= link_to "Join", home_join_path(@organization, x: org.name), method: "get" %> <br>
       </li>
     
   <% end %>
