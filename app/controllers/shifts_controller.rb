@@ -6,12 +6,22 @@ class ShiftsController < ApplicationController
     end
 
     def create
-        p "hey"
         @user = current_user
         @organization = Organization.find(params[:organization_id])
-        p shift_params[:date]
-        @shift = @organization.shifts.create(user_id: @user.id, date: shift_params[:date], 
-            start: shift_params[:start], end: shift_params[:end], break: shift_params[:break])
+
+        @full_date = params[:shift][:"date(1i)"] + "-" + params[:shift][:"date(2i)"] + "-" + params[:shift][:"date(3i)"]
+
+        start_string = @full_date + " " + shift_params[:start]
+        @datetime_start = DateTime.parse(start_string)
+        p @datetime_start
+
+        end_string = @full_date + " " + shift_params[:end]
+        @datetime_finish = DateTime.parse(end_string)
+        p @datetime_finish
+
+
+        @shift = @organization.shifts.create(user_id: @user.id,
+            start: @datetime_start, finish: @datetime_finish, break: shift_params[:break])
         redirect_to organization_shifts_path(@organization)
     end
     

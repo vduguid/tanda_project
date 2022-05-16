@@ -24,14 +24,14 @@ Logged in as <%= @user.name %>
   <%= User.find(shift.user_id).name %>
   </td> 
   <td>
-    <%= shift.date %>
+    <%= shift.start.strftime("%d/%m/%Y") %>
   </td>
 
   <td>
-    <%= shift.start %>
+    <%= shift.start.strftime('%I:%M %p') %>
   </td>
   <td>
-    <%= shift.end %>
+    <%= shift.finish.strftime('%I:%M %p') %>
   </td>
   <td>
     <%= shift.break %>
@@ -64,13 +64,21 @@ Logged in as <%= @user.name %>
       <%= @user.name%>
     </td>
     <td>
-      <%= form.text_field :date, "data-provide" => 'datepicker' %>
+      <%= form.date_select :date, {
+        order: [:month, :day, :year],
+        date_separator: "/",
+        prompt: {
+            month: 'mm',
+            day: 'dd',
+            year: 'yyyy',
+        },
+     } %>
     </td>
     <td>
-      <%= form.text_field :start %>
+      <%= form.time_field :start %>
     </td>
     <td>
-      <%= form.text_field :end %>
+      <%= form.time_field :end %>
     </td>
     <td>
       <%= form.number_field :break %>

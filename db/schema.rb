@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_12_044234) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_16_161008) do
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.float "rate"
@@ -19,14 +19,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_12_044234) do
   end
 
   create_table "shifts", force: :cascade do |t|
-    t.string "date"
-    t.string "start"
-    t.string "end"
     t.integer "break"
     t.integer "organization_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id"
+    t.datetime "start"
+    t.datetime "finish"
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
     t.index ["user_id"], name: "index_shifts_on_user_id"
   end
