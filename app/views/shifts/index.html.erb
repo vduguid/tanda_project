@@ -18,13 +18,53 @@ Logged in as <%= @user.name %>
 </thead>
 
 <tbody>
+<% @organization.shifts.each do |shift| %>
 <tr>
+  <td>
+  <%= User.find(shift.user_id).name %>
+  </td> 
+  <td>
+    <%= shift.date %>
+  </td>
+
+  <td>
+    <%= shift.start %>
+  </td>
+  <td>
+    <%= shift.end %>
+  </td>
+  <td>
+    <%= shift.break %>
+  </td>
+</tr>
+<% end %>
+
+
+</tbody>
+</table>
+
+<br><br><br>
+
+<b> Create New Shift </b> <br> <br>
+
 <%= form_with model: [ @organization, @organization.shifts.build ] do |form| %>
+
+<table border="1">
+<thead>
+<tr>
+<th rowspan=2> Employee name </th> <th rowspan=2> Shift date </th> <th rowspan=2> Start Time </th> 
+<th rowspan=2> End Time </th> <th rowspan=2> Break length (minutes) </th>
+<th rowspan=2> Submit </th> 
+</tr>
+</thead>
+
+<tbody>
+<tr>
     <td>
       <%= @user.name%>
     </td>
     <td>
-      <%= form.text_field :date %>
+      <%= form.text_field :date, "data-provide" => 'datepicker' %>
     </td>
     <td>
       <%= form.text_field :start %>
@@ -35,10 +75,12 @@ Logged in as <%= @user.name %>
     <td>
       <%= form.number_field :break %>
     </td>
-    <td colspan=2>
-      <%= form.submit "Create Shift", :action => "create" %>
+    <td>
+      <%= form.submit "Create Shift"%>
     </td>
-<% end %>
+
 </tr>
 </tbody>
 </table>
+
+<% end %>

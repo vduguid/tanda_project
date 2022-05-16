@@ -6,6 +6,6 @@ Logged in as <%= @user.name %>
 
 <b> <h2> <%= @organization.name %> </h2> </b>
 
-<%= link_to "Shifts", new_organization_shift_path(@organization), method: "get" %> 
+<%= link_to "Shifts", organization_shifts_path(@organization), method: "get" %> 
 <%= link_to "Edit", edit_organization_path(@organizations, id: @organization.id), method: "get" %> 
 <%= link_to "Leave", '/home/leave', method: "get" %> <br>

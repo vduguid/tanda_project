@@ -12,6 +12,8 @@ Rails.application.routes.draw do
 
   get '/home/delete/:id' => 'organizations#destroy'
 
+  get '/organization/:id/shifts' => 'organizations#shifts'
+
   get '/login' => 'sessions#new'
 
   post 'login' => "sessions#create"

@@ -18,6 +18,10 @@ class OrganizationsController < ApplicationController
         redirect_to '/home/new'
     end
 
+    def shifts
+        @user = current_user
+        @organization = Organization.find_by_id(@user.organization_id)
+    end
 
     def new
         @organizations = Organization.all

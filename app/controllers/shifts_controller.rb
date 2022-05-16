@@ -1,17 +1,18 @@
 class ShiftsController < ApplicationController
 
-    def new
+    def index
         @user = current_user
         @organization = Organization.find_by_id(@user.organization_id)
     end
 
     def create
+        p "hey"
         @user = current_user
-        @organization = Article.find(params[:organization_id])
+        @organization = Organization.find(params[:organization_id])
         p shift_params[:date]
         @shift = @organization.shifts.create(user_id: @user.id, date: shift_params[:date], 
             start: shift_params[:start], end: shift_params[:end], break: shift_params[:break])
-        redirect_to '/home'
+        redirect_to organization_shifts_path(@organization)
     end
     
     private
