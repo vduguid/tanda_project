@@ -12,18 +12,16 @@ Rails.application.routes.draw do
 
   get '/home/delete/:id' => 'organizations#destroy'
 
-  get '/organization/:id/shifts' => 'organizations#shifts'
-
   get '/login' => 'sessions#new'
 
   post 'login' => "sessions#create"
 
   get '/logout' => "sessions#destroy"
 
-  resources :users
-  resources :organizations do
+  resources :users do
     resources :shifts
   end
+  resources :organizations
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

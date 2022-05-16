@@ -4,7 +4,7 @@ Logged in as <%= @user.name %>
 
 <%= link_to "Log Out", logout_path, method: "delete" %> <br>
 
-<b> <h2> <%= @organization.name %> </h2> </b>
+<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", '/home', method: "get" %> <br>
 
 <b> Shifts </b> <br> <br>
 
@@ -18,23 +18,29 @@ Logged in as <%= @user.name %>
 </thead>
 
 <tbody>
-<% @organization.shifts.each do |shift| %>
+<% @shifts_sort.each do |shift| %>
 <tr>
   <td>
   <%= User.find(shift.user_id).name %>
   </td> 
   <td>
-    <%= shift.start.strftime("%d/%m/%Y") %>
+    <%= shift.start.strftime("%m/%d/%Y") %>
   </td>
 
   <td>
-    <%= shift.start.strftime('%I:%M %p') %>
+    <%= @start = shift.start.strftime('%I:%M %p') %>
   </td>
   <td>
-    <%= shift.finish.strftime('%I:%M %p') %>
+    <%= @end = shift.finish.strftime('%I:%M %p') %>
   </td>
   <td>
     <%= shift.break %>
+  </td>
+  <td>
+    <%= @hours_worked = ((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60)) %>
+  </td>
+  <td>
+    $ <%= @hours_worked * @organization.rate %>
   </td>
 </tr>
 <% end %>
@@ -47,7 +53,7 @@ Logged in as <%= @user.name %>
 
 <b> Create New Shift </b> <br> <br>
 
-<%= form_with model: [ @organization, @organization.shifts.build ] do |form| %>
+<%= form_with model: [ @user, @user.shifts.build ] do |form| %>
 
 <table border="1">
 <thead>
