@@ -10,7 +10,17 @@ class ShiftsController < ApplicationController
                 @shifts += user.shifts.all
             end
         end
-        p @shifts
+        @shifts_sort = @shifts.sort_by(&:start).reverse
+
+        #filters
+    end
+
+    def emp_filter
+        @logged_user = current_user
+        @organization = Organization.find_by_id(@logged_user.organization_id)
+        @employee_name = params[:name]
+        @user = User.find_by(name: @employee_name)
+        @shifts = @user.shifts.all
         @shifts_sort = @shifts.sort_by(&:start).reverse
     end
 
@@ -29,8 +39,9 @@ class ShiftsController < ApplicationController
 
             end_string = @full_date + " " + shift_params[:end]
             @datetime_finish = DateTime.parse(end_string)
+
         
-            @hours_worked = ((Time.parse(shift_params[:end]).to_i - Time.parse(shift_params[:start]).to_i).fdiv(3600)) - (((Time.parse(shift_params[:break])).to_i).fdiv(60))
+            @hours_worked = ((Time.parse(shift_params[:end]).to_i - Time.parse(shift_params[:start]).to_i).fdiv(3600)) - ((shift_params[:break]).to_i).fdiv(60)
 
             @overnight = 0
             if @hours_worked < 0
@@ -48,14 +59,14 @@ class ShiftsController < ApplicationController
     def edit
         @user = current_user
         @organization = Organization.find(@user.organization_id)
-        @shift = @user.shifts.find(params[:id])
+        @shift = Shift.find(params[:id])
         @date = @shift.start.strftime("%m/%d/%Y")
     end
 
     def update
         @user = current_user
         @organization = Organization.find(@user.organization_id)
-        @shift = @user.shifts.find(params[:id])
+        @shift = Shift.find(params[:id])
 
         @full_date = params[:shift][:"start(1i)"] + "-" + params[:shift][:"start(2i)"] + "-" + params[:shift][:"start(3i)"]
         
@@ -68,7 +79,14 @@ class ShiftsController < ApplicationController
 
             end_string = @full_date + " " + edit_params[:finish]
             @datetime_finish = DateTime.parse(end_string)
-            if @shift.update(start: @datetime_start, finish: @datetime_finish, break: edit_params[:break])
+
+            @hours_worked = ((Time.parse(edit_params[:finish]).to_i - Time.parse(edit_params[:start]).to_i).fdiv(3600)) - ((shift_params[:break]).to_i).fdiv(60)
+
+            @overnight = 0
+            if @hours_worked < 0
+                @overnight = 1
+            end
+            if @shift.update(start: @datetime_start, finish: @datetime_finish, break: edit_params[:break], overnight: @overnight)
                 redirect_to user_shifts_path(@user)
             else
                 render :edit, status: :unprocessable_entity

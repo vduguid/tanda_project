@@ -5,22 +5,9 @@ Logged in as <%= @user.name %>
 <%= link_to "Log Out", logout_path, method: "delete" %>  | 
 <%= link_to "Settings", home_settings_path, method: "get" %> <br>
 
-<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", '/home', method: "get" %> <br><br><br>
+<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", user_shifts_path(@user), method: "get" %> <br><br><br>
 
-<b> Filter shifts by employee: </b> <br> 
-<%= form_with url: employee_filter_path, method: "get" do |form| %>
-  <%= form.select :name,
-  options_for_select(
-      @users.all.pluck(:name)
-    ) 
-    %>
-
-    <%= form.submit "Filter"%>
-  <% end %>
-  
-  <br><br>
-
-<b> Shifts </b> <br> <br>
+<b> Filtered Shifts </b> <br> <br>
 
 <table border="1">
 <thead>
@@ -69,56 +56,5 @@ Logged in as <%= @user.name %>
 
 <% end %>
 
-
 </tbody>
 </table>
-
-<br><br><br>
-
-<b> Create New Shift </b> <br> <br>
-
-<%= form_with model: [ @user, @user.shifts.build ] do |form| %>
-
-<table border="1">
-<thead>
-<tr>
-<th rowspan=2> Employee name </th> <th rowspan=2> Shift date </th> <th rowspan=2> Start Time </th> 
-<th rowspan=2> End Time </th> <th rowspan=2> Break length (minutes) </th>
-<th rowspan=2> Submit </th> 
-</tr>
-</thead>
-
-<tbody>
-<tr>
-    <td>
-      <%= @user.name%>
-    </td>
-    <td>
-      <%= form.date_select :date, {
-        order: [:month, :day, :year],
-        date_separator: "/",
-        prompt: {
-            month: 'mm',
-            day: 'dd',
-            year: 'yyyy',
-        },
-     } %>
-    </td>
-    <td>
-      <%= form.time_field :start %>
-    </td>
-    <td>
-      <%= form.time_field :end %>
-    </td>
-    <td>
-      <%= form.number_field :break %>
-    </td>
-    <td>
-      <%= form.submit "Create Shift"%>
-    </td>
-
-</tr>
-</tbody>
-</table>
-
-<% end %>

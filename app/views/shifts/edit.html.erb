@@ -5,7 +5,7 @@ Logged in as <%= @user.name %>
 <%= link_to "Log Out", logout_path, method: "delete" %>  | 
 <%= link_to "Settings", home_settings_path, method: "get" %> <br>
 
-<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", '/home', method: "get" %> <br><br><br>
+<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", user_shifts_path(@user), method: "get" %> <br><br><br>
 
 <b> Edit Shifts </b> <br> <br>
 
@@ -23,7 +23,8 @@ Logged in as <%= @user.name %>
 <tbody>
 <tr>
     <td>
-      <%= @user.name%>
+    <% @shift_user = User.find(@shift.user_id) %>
+      <%= @shift_user.name%>
     </td>
     <td>
       <%= form.date_select :start, {
