@@ -9,6 +9,12 @@ Rails.application.routes.draw do
   get '/reset' => 'users#reset'
   post '/reset/update' => 'users#update'
 
+  get '/home/settings' => 'users#settings'
+  post 'home/settings/email' => 'users#update_email'
+  post 'home/settings/name' => 'users#update_name'
+  post 'home/settings/password' => 'users#update_pass'
+  get '/go/home' => 'users#go_home'
+
   get '/home/edit/:id' => 'organizations#edit'
   patch '/home/update/:id' => 'organizations#update'
 

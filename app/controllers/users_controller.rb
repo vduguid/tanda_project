@@ -13,16 +13,32 @@ class UsersController < ApplicationController
     end
   end
 
-  def details
+  def settings
     @user = current_user
+  end
+
+  def go_home
+    @user = current_user
+    if @user.organization_id
+      redirect_to home_path
+    else
+      redirect_to '/home/new'
+    end
   end
 
   def update_name
     @user =  current_user
     @new_name = params[:users][:name]
     @user.name = @new_name
-    @user.save
-    
+    if @user.save
+      if @user.organization_id
+        redirect_to home_path
+      else
+        redirect_to '/home/new'
+      end
+    else
+      render :settings, status: :unprocessable_entity
+    end
   end
 
   def update_email
@@ -30,6 +46,15 @@ class UsersController < ApplicationController
     @new_email = params[:users][:email]
     @user.email = @new_email
     @user.save
+    if @user.save
+      if @user.organization_id
+        redirect_to home_path
+      else
+        redirect_to '/home/new'
+      end
+    else
+      render :settings, status: :unprocessable_entity
+    end
   end
 
   def update_pass
@@ -38,7 +63,15 @@ class UsersController < ApplicationController
     @new_pass = params[:users][:new_pass]
     if @user.authenticate(@old_pass)
       @user.pass = @new_pass
-      @user.save
+      if @user.save
+        if @user.organization_id
+          redirect_to home_path
+        else
+          redirect_to '/home/new'
+        end
+      end
+    else
+      render :settings, status: :unprocessable_entity
     end
   end
 

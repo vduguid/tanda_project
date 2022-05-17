@@ -1,0 +1,40 @@
+<h1>Adnat</h1>
+
+<h2>User Settings</h2>
+
+
+<b>Change Name</b> <br><br>
+
+<%= form_for(:users, url: home_settings_name_path) do |form| %>
+    <%= form.label "New Name: " %><br>
+    <%= form.text_field :name %><br>
+
+    <%= form.submit "Update", class: "btn-submit" %>
+<% end %>
+
+<b>Change Email</b> <br><br>
+
+<%= form_for(:users, url: home_settings_email_path) do |form| %>
+    <%= form.label "New Email: " %><br>
+    <%= form.email_field :email %><br>
+
+    <%= form.submit "Update", class: "btn-submit" %>
+<% end %>
+
+<b>Change Password</b> <br><br>
+
+<%= form_for(:users, url: home_settings_password_path) do |form| %>
+   
+      <%= form.label "Old Password" %><br>
+      <%= form.password_field :old_pass %><br>
+      
+  
+      <%= form.label "New Password" %><br>
+      <%= form.password_field :new_pass %><br>
+
+    <%= form.submit "Update", class: "btn-submit" %>
+<% end %>
+
+<p> 
+<%= link_to "Back to Home", go_home_path %> 
+</p> <br>
