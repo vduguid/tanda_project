@@ -1,11 +1,11 @@
 <h1>Adnat</h1>
 
-Logged in as <%= @user.name %>
+Logged in as <%= @user.name %> 
 
 <%= link_to "Log Out", logout_path, method: "delete" %> <br>
 
 <b> <h2> <%= @organization.name %> </h2> </b>
 
-<%= link_to "View Shifts", user_shifts_path(@user), method: "get" %> 
-<%= link_to "Edit", edit_organization_path(@organizations, id: @organization.id), method: "get" %> 
+<%= link_to "View Shifts", user_shifts_path(@user), method: "get" %>    
+<%= link_to "Edit", edit_organization_path(@organizations, id: @organization.id), method: "get" %>    
 <%= link_to "Leave", '/home/leave', method: "get" %> <br>

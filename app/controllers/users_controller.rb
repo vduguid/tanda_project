@@ -13,6 +13,7 @@ class UsersController < ApplicationController
       p @error_msg
       valid_params = false
       @user.errors.add( "Passwords must match" )
+      render :new, status: :unprocessable_entity
     end
     if @user.save
       redirect_to root_path

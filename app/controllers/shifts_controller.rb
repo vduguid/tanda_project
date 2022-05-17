@@ -20,19 +20,26 @@ class ShiftsController < ApplicationController
 
         @full_date = params[:shift][:"date(1i)"] + "-" + params[:shift][:"date(2i)"] + "-" + params[:shift][:"date(3i)"]
 
-        start_string = @full_date + " " + shift_params[:start]
-        @datetime_start = DateTime.parse(start_string)
+        p shift_params[:shift]
 
-        end_string = @full_date + " " + shift_params[:end]
-        @datetime_finish = DateTime.parse(end_string)
-
-        p @datetime_finish
-    
-
-        if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break])
+        if shift_params[:start] == ""
             redirect_to user_shifts_path(@user)
-        else
-            render :new, status: :unprocessable_entity
+        else 
+
+            start_string = @full_date + " " + shift_params[:start]
+            @datetime_start = DateTime.parse(start_string)
+
+            end_string = @full_date + " " + shift_params[:end]
+            @datetime_finish = DateTime.parse(end_string)
+
+            p @datetime_finish
+        
+
+            if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break])
+                redirect_to user_shifts_path(@user)
+            else
+                render :new, status: :unprocessable_entity
+            end
         end
     end
     

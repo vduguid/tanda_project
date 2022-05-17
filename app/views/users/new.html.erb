@@ -30,9 +30,6 @@
   <div>
     <%= form.label "Password Confirmation" %><br>
     <%= form.password_field :conf_pass %><br>
-    <%= @user.errors.full_messages.each do |message| %>
-        <font color="red"> <div><%= message %></div> </font>
-        <% end %> <br>
     
   </div>
 

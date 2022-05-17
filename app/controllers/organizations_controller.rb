@@ -14,6 +14,7 @@ class OrganizationsController < ApplicationController
 
     def leave 
         @user = current_user
+        @user.shifts.destroy_all
         @user.update(organization_id: nil)
         redirect_to '/home/new'
     end
@@ -36,9 +37,9 @@ class OrganizationsController < ApplicationController
         if @organization.save
             @user.update(organization_id: @organization.id)
             redirect_to '/home'
-          else
-            render :new, status: :unprocessable_entity
-          end
+        else
+            redirect_to '/home/new'
+        end
     end
 
     def edit
