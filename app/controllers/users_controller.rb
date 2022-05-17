@@ -1,5 +1,18 @@
 class UsersController < ApplicationController
 
+  def reset
+  end
+
+  def update
+    @user = User.find_by(email: params[:users][:email])
+    p params[:users][:email]
+    if @user
+      @user.pass = params[:users][:newpass]
+      @user.save
+      redirect_to root_path
+    end
+  end
+
   def new
     @user = User.new
   end

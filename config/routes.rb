@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   post '/home/new_organization' => 'organizations#create'
   get 'home/join/' => 'organizations#join'
   get 'home/leave' => 'organizations#leave'
+  get '/reset' => 'users#reset'
+  post '/reset/update' => 'users#update'
 
   get '/home/edit/:id' => 'organizations#edit'
   patch '/home/update/:id' => 'organizations#update'
