@@ -30,8 +30,14 @@ class ShiftsController < ApplicationController
             end_string = @full_date + " " + shift_params[:end]
             @datetime_finish = DateTime.parse(end_string)
         
+            @hours_worked = ((Time.parse(shift_params[:end]).to_i - Time.parse(shift_params[:start]).to_i).fdiv(3600)) - (((Time.parse(shift_params[:break])).to_i).fdiv(60))
 
-            if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break])
+            @overnight = 0
+            if @hours_worked < 0
+                @overnight = 1
+            end
+
+            if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break], overnight: @overnight)
                 redirect_to user_shifts_path(@user)
             else
                 render :new, status: :unprocessable_entity

@@ -38,7 +38,12 @@ Logged in as <%= @user.name %>
     <%= shift.break %>
   </td>
   <td>
-    <%= @hours_worked = ((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60)) %>
+    <% if shift.overnight %>
+    <% @hours_worked = 24 - (((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60))).abs %>
+    <% else %>
+    <% @hours_worked = (((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60))).abs %>
+    <% end %>
+    <%= @hours_worked %>
   </td>
   <td>
     $ <%= @hours_worked * @organization.rate %>
