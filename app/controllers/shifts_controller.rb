@@ -20,8 +20,6 @@ class ShiftsController < ApplicationController
 
         @full_date = params[:shift][:"date(1i)"] + "-" + params[:shift][:"date(2i)"] + "-" + params[:shift][:"date(3i)"]
 
-        p shift_params[:shift]
-
         if shift_params[:start] == ""
             redirect_to user_shifts_path(@user)
         else 
@@ -31,8 +29,6 @@ class ShiftsController < ApplicationController
 
             end_string = @full_date + " " + shift_params[:end]
             @datetime_finish = DateTime.parse(end_string)
-
-            p @datetime_finish
         
 
             if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break])
@@ -42,9 +38,53 @@ class ShiftsController < ApplicationController
             end
         end
     end
+
+    def edit
+        @user = current_user
+        @organization = Organization.find(@user.organization_id)
+        @shift = @user.shifts.find(params[:id])
+        @date = @shift.start.strftime("%m/%d/%Y")
+    end
+
+    def update
+        @user = current_user
+        @organization = Organization.find(@user.organization_id)
+        @shift = @user.shifts.find(params[:id])
+
+        @full_date = params[:shift][:"start(1i)"] + "-" + params[:shift][:"start(2i)"] + "-" + params[:shift][:"start(3i)"]
+        
+        if shift_params[:start] == ""
+            redirect_to user_shifts_path(@user)
+        else 
+
+            start_string = @full_date + " " + edit_params[:start]
+            @datetime_start = DateTime.parse(start_string)
+
+            end_string = @full_date + " " + edit_params[:finish]
+            @datetime_finish = DateTime.parse(end_string)
+            if @shift.update(start: @datetime_start, finish: @datetime_finish, break: edit_params[:break])
+                redirect_to user_shifts_path(@user)
+            else
+                render :edit, status: :unprocessable_entity
+            end
+        end
+    end
+
+    #this is a destroy method but rails was being annoying
+    def show
+        @user = current_user
+        @shift = @user.shifts.find(params[:id])
+        @shift.destroy
+        redirect_to user_shifts_path(@user)
+    end
     
     private
        def shift_params
           params.require(:shift).permit(:date, :start, :end, :break)
         end
+
+        private
+        def edit_params
+           params.require(:shift).permit(:date, :start, :finish, :break)
+         end
 end

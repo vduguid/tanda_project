@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
         @user = User.find_by_email(params[:sessions][:email])
     
         if @user && @user.authenticate(params[:sessions][:pass])
-            p @user
             if params[:remember_me]
                 cookies.signed[:user_id] = { value: @user.id, expires: 2.weeks.from_now }
             else

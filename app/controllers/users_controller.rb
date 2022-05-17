@@ -5,7 +5,6 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find_by(email: params[:users][:email])
-    p params[:users][:email]
     if @user
       @user.pass = params[:users][:newpass]
       @user.save
@@ -31,6 +30,7 @@ class UsersController < ApplicationController
     @new_name = params[:users][:name]
     @user.name = @new_name
     if @user.save
+      flash[:success] = "Name updated"
       if @user.organization_id
         redirect_to home_path
       else
