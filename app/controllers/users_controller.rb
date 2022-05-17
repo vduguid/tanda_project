@@ -13,6 +13,35 @@ class UsersController < ApplicationController
     end
   end
 
+  def details
+    @user = current_user
+  end
+
+  def update_name
+    @user =  current_user
+    @new_name = params[:users][:name]
+    @user.name = @new_name
+    @user.save
+    
+  end
+
+  def update_email
+    @user =  current_user
+    @new_email = params[:users][:email]
+    @user.email = @new_email
+    @user.save
+  end
+
+  def update_pass
+    @user =  current_user
+    @old_pass = params[:users][:old_pass]
+    @new_pass = params[:users][:new_pass]
+    if @user.authenticate(@old_pass)
+      @user.pass = @new_pass
+      @user.save
+    end
+  end
+
   def new
     @user = User.new
   end

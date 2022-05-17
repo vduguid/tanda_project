@@ -7,7 +7,12 @@ class SessionsController < ApplicationController
         @user = User.find_by_email(params[:sessions][:email])
     
         if @user && @user.authenticate(params[:sessions][:pass])
-            session[:user_id] = @user.id
+            p @user
+            if params[:remember_me]
+                cookies.signed[:user_id] = { value: @user.id, expires: 2.weeks.from_now }
+            else
+                cookies.signed[:user_id] = @user.id
+            end
             if @user.organization_id
                 redirect_to home_path
             else
@@ -20,7 +25,7 @@ class SessionsController < ApplicationController
     end
 
     def destroy
-        session.delete :user_id
+        cookies.delete :user_id
         redirect_to root_path
     end
 
