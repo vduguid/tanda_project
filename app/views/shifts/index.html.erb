@@ -20,7 +20,7 @@ Logged in as <%= @user.name %>
   
   <br><br>
 
-<b> Shifts </b> <br> <br>
+<b> Shifts </b>    |  <%= link_to "View Previous Employee's Shifts", view_departed_path, method: "get" %> <br><br> <br>
 
 <table border="1">
 <thead>
@@ -33,6 +33,7 @@ Logged in as <%= @user.name %>
 
 <tbody>
 <% @shifts_sort.each do |shift| %>
+  <% unless shift.departed? %>
 <tr>
   <td>
   <%= User.find(shift.user_id).name %>
@@ -66,7 +67,7 @@ Logged in as <%= @user.name %>
   <td> 
 <%= link_to "Delete", user_shift_path(@user, id: shift.id), method: "delete" %> </td>
 </tr>
-
+<% end %>
 <% end %>
 
 

@@ -24,6 +24,12 @@ class ShiftsController < ApplicationController
         @shifts_sort = @shifts.sort_by(&:start).reverse
     end
 
+    def view_dep
+        @user = current_user
+        @organization = Organization.find_by_id(@user.organization_id)
+        @shifts = Shift.where(organization_id: @organization.id, status: "departed")
+    end
+
     def create
         @user = current_user
         @organization = Organization.find_by_id(@user.organization_id)
@@ -48,7 +54,10 @@ class ShiftsController < ApplicationController
                 @overnight = 1
             end
 
-            if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, break: shift_params[:break], overnight: @overnight)
+            @status = "current"
+
+            if @user.shifts.create(start: @datetime_start, finish: @datetime_finish, 
+                break: shift_params[:break], overnight: @overnight, status: @status, organization_id: @organization.id)
                 redirect_to user_shifts_path(@user)
             else
                 render :new, status: :unprocessable_entity
@@ -86,7 +95,11 @@ class ShiftsController < ApplicationController
             if @hours_worked < 0
                 @overnight = 1
             end
-            if @shift.update(start: @datetime_start, finish: @datetime_finish, break: edit_params[:break], overnight: @overnight)
+
+            @status = "current"
+
+            if @shift.update(start: @datetime_start, finish: @datetime_finish, 
+                break: edit_params[:break], overnight: @overnight, status: @status, organization_id: @organization.id)
                 redirect_to user_shifts_path(@user)
             else
                 render :edit, status: :unprocessable_entity
@@ -97,7 +110,7 @@ class ShiftsController < ApplicationController
     #this is a destroy method but rails was being annoying
     def show
         @user = current_user
-        @shift = @user.shifts.find(params[:id])
+        @shift = Shift.find(params[:id])
         @shift.destroy
         redirect_to user_shifts_path(@user)
     end

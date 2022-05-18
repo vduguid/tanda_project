@@ -1,0 +1,60 @@
+<h1>Adnat</h1>
+
+Logged in as <%= @user.name %>
+
+<%= link_to "Log Out", logout_path, method: "delete" %>  | 
+<%= link_to "Settings", home_settings_path, method: "get" %> <br>
+
+<b> <h2> <%= @organization.name %> </h2> </b> <%= link_to "Back", user_shifts_path(@user), method: "get" %> <br><br><br>
+
+<b> Filtered Shifts </b> <br> <br>
+
+<table border="1">
+<thead>
+<tr>
+<th rowspan=2> Employee name </th> <th rowspan=2> Shift date </th> <th rowspan=2> Start Time </th> 
+<th rowspan=2> End Time </th> <th rowspan=2> Break length (minutes) </th>
+<th rowspan=2> Hours worked</th> <th rowspan=2> Shift cost </th>
+</tr>
+</thead>
+
+<tbody>
+<% @shifts.each do |shift| %>
+<tr>
+  <td>
+  <%= User.find(shift.user_id).name %>
+  </td> 
+  <td>
+    <%= shift.start.strftime("%m/%d/%Y") %>
+  </td>
+
+  <td>
+    <%= @start = shift.start.strftime('%I:%M %p') %>
+  </td>
+  <td>
+    <%= @end = shift.finish.strftime('%I:%M %p') %>
+  </td>
+  <td>
+    <%= shift.break %>
+  </td>
+  <td>
+    <% if shift.overnight %>
+    <% @hours_worked = 24 - (((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60))).abs %>
+    <% else %>
+    <% @hours_worked = (((Time.parse(@end).to_i - Time.parse(@start).to_i).fdiv(3600)) - ((shift.break).fdiv(60))).abs %>
+    <% end %>
+    <%= @hours_worked %>
+  </td>
+  <td>
+    $ <%= @hours_worked * @organization.rate %>
+  </td>
+  <td>
+  <%= link_to "Edit", edit_user_shift_path(@user, id: shift.id), method: "get" %> </td> 
+  <td> 
+<%= link_to "Delete", user_shift_path(@user, id: shift.id), method: "delete" %> </td>
+</tr>
+
+<% end %>
+
+</tbody>
+</table>

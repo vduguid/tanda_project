@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   post '/reset/update' => 'users#update'
 
   get '/employee/filter' => 'shifts#emp_filter'
+  get '/view/departed' => 'shifts#view_dep'
 
   get '/home/settings' => 'users#settings'
   post 'home/settings/email' => 'users#update_email'

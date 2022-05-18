@@ -8,12 +8,21 @@ class OrganizationsController < ApplicationController
         @user = current_user
         @organization = Organization.find_by(name: params[:x])
         @user.update(organization_id: @organization.id)
+        #readd user's past shifts
+        @shifts = Shift.where(organization_id: @organization.id, user_id: @user.id)
+        @shifts.each do |shift|
+            shift.update(status: "current")
+        end
         redirect_to '/home'
     end
 
     def leave 
         @user = current_user
-        @user.shifts.destroy_all
+        #normally we would destroy the user's shifts, but we're just going to archive them!
+        @shifts = @user.shifts.all
+        @shifts.each do |shift|
+            shift.update(status: "departed")
+        end
         @user.update(organization_id: nil)
         redirect_to '/home/new'
     end
