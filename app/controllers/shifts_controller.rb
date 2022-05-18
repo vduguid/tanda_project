@@ -20,7 +20,7 @@ class ShiftsController < ApplicationController
         @organization = Organization.find_by_id(@logged_user.organization_id)
         @employee_name = params[:name]
         @user = User.find_by(name: @employee_name)
-        @shifts = @user.shifts.all
+        @shifts = @user.shifts.where(organization_id: @organization.id)
         @shifts_sort = @shifts.sort_by(&:start).reverse
     end
 
