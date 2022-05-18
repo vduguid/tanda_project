@@ -73,8 +73,12 @@ class OrganizationsController < ApplicationController
 
     def destroy
         @organization = Organization.find_by_id(params[:id])
+        @user = current_user
+        if @user.organization_id
+            @user.update(organization_id: nil)
+        end
         @organization.destroy
-        redirect_to '/home/new'
+        redirect_to '/home/new', method: "get"
     end
 
     private
