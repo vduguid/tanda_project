@@ -34,9 +34,9 @@ class ShiftsController < ApplicationController
         @user = current_user
         @organization = Organization.find_by_id(@user.organization_id)
 
-        @full_date = params[:shift][:"date(1i)"] + "-" + params[:shift][:"date(2i)"] + "-" + params[:shift][:"date(3i)"]
+        @full_date = shift_params[:"date(1i)"] + "-" + shift_params[:"date(2i)"] + "-" + shift_params[:"date(3i)"]
 
-        if shift_params[:start] == ""
+        if shift_params[:start] == "" || shift_params[:end] == "" || shift_params[:"date(1i)"] == "" || shift_params[:"date(2i)"] == "" || shift_params[:"date(3i)"] == ""
             redirect_to user_shifts_path(@user)
         else 
 
@@ -77,9 +77,9 @@ class ShiftsController < ApplicationController
         @organization = Organization.find(@user.organization_id)
         @shift = Shift.find(params[:id])
 
-        @full_date = params[:shift][:"start(1i)"] + "-" + params[:shift][:"start(2i)"] + "-" + params[:shift][:"start(3i)"]
+        @full_date = edit_params[:"start(1i)"] + "-" + edit_params[:"start(2i)"] + "-" + edit_params[:"start(3i)"]
         
-        if shift_params[:start] == ""
+        if edit_params[:start] == "" || edit_params[:end] == "" || edit_params[:"start(1i)"] == "" || edit_params[:"start(2i)"] == "" || edit_params[:"start(3i)"] == ""
             redirect_to user_shifts_path(@user)
         else 
 
@@ -89,7 +89,7 @@ class ShiftsController < ApplicationController
             end_string = @full_date + " " + edit_params[:finish]
             @datetime_finish = DateTime.parse(end_string)
 
-            @hours_worked = ((Time.parse(edit_params[:finish]).to_i - Time.parse(edit_params[:start]).to_i).fdiv(3600)) - ((shift_params[:break]).to_i).fdiv(60)
+            @hours_worked = ((Time.parse(edit_params[:finish]).to_i - Time.parse(edit_params[:start]).to_i).fdiv(3600)) - ((edit_params[:break]).to_i).fdiv(60)
 
             @overnight = 0
             if @hours_worked < 0
@@ -117,11 +117,11 @@ class ShiftsController < ApplicationController
     
     private
        def shift_params
-          params.require(:shift).permit(:date, :start, :end, :break)
+          params.require(:shift).permit(:"date(1i)", :"date(2i)", :"date(3i)", :start, :end, :break)
         end
 
         private
         def edit_params
-           params.require(:shift).permit(:date, :start, :finish, :break)
+           params.require(:shift).permit(:"start(1i)", :"start(2i)", :"start(3i)", :start, :finish, :break)
          end
 end
