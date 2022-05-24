@@ -60,7 +60,8 @@ Logged in as <%= @user.name %>
     <%= @hours_worked %>
   </td>
   <td>
-    $ <%= @hours_worked * @organization.rate %>
+    <% @cost = (@hours_worked * @organization.rate).round(2) %>
+    $<%= number_with_precision @cost, :precision => 2 %>
   </td>
   <td>
   <%= link_to "Edit", edit_user_shift_path(@user, id: shift.id), method: "get" %> </td> 

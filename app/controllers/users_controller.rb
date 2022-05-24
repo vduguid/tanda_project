@@ -108,35 +108,6 @@ class UsersController < ApplicationController
 
   
   
-  # extend ActiveModel::Naming
-  
-  # def initialize
-  #   @err = ActiveModel::Errors.new(self)
-  # end
-  # attr_accessor :check_pass
-  # attr_reader   :err
-
-  # def match_error
-  #   if !(@first_pass.eql?(@check_pass))
-  #     p @error_msg
-  #   end
-  #    err.add(@check_pass, :blank, message: "Passwords do not match") if !(@first_pass.eql?(@check_pass))
-  #   #err.add(@check_pass, :blank, message: "Password confirmation can't be blank") if @check_pass.nil?
-  # end
-  # public
-  # def read_attribute_for_validation(check_pass)
-  #   send(check_pass)
-  # end
-  # public
-  # def self.human_attribute_name(attr, options = {})
-  #   attr
-  # end
-  # public
-  # def self.lookup_ancestors
-  #   [self]
-  # end
-  
-  # helper_method :match_error
   
 
 
